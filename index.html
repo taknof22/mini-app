@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Mini App</title>
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+  <style>
+    body {
+      font-family: Arial;
+      background: #f5f5f5;
+      padding: 20px;
+    }
+    .card {
+      background: white;
+      padding: 15px;
+      border-radius: 12px;
+      margin-bottom: 10px;
+    }
+    button {
+      padding: 10px;
+      border: none;
+      border-radius: 8px;
+      width: 100%;
+      cursor: pointer;
+      background: black;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+
+<h2>Каталог</h2>
+
+<div class="card">
+  <h3>Абонемент на плавание</h3>
+  <p>Напоминания + удобный контроль</p>
+  <button onclick="buy()">Добавить</button>
+</div>
+
+<script>
+  const tg = window.Telegram.WebApp;
+  tg.expand();
+
+  function buy() {
+    alert("Добавлено!");
+  }
+</script>
+
+</body>
+</html>
