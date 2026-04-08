@@ -98,6 +98,14 @@ button.buy {
 
 <body>
 
+  <div class="hero">
+  <div class="logo">🦆</div>
+
+  <h1>Swimming Bot</h1>
+  <p>Умные напоминания и контроль тренировок</p>
+
+  <button onclick="openBot()">Открыть бота</button>
+</div>
 <div class="header">Каталог</div>
 
 <div class="menu">
@@ -135,12 +143,16 @@ button.buy {
 </div>
 
 <div class="footer">
-  <a href="https://t.me/your_bot_username">Открыть бота</a>
+  <a href="https://t.me/SwimmingNotificationsBot">Открыть бота</a>
 </div>
 
 <script>
 function buy() {
   alert("Добавлено!");
+}
+
+function openBot() {
+  window.open("https://t.me/SwimmingNotificationsBot");
 }
 </script>
 
