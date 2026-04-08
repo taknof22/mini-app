@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="eu">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -9,125 +9,192 @@
   <style>
     * {
       box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
     }
 
     body {
       margin: 0;
       padding: 14px;
       font-family: Arial, sans-serif;
-      background: #f5f7f3;
-      color: #1f1f1f;
+      background: #0a0f0d;
+      color: #f3f5f4;
     }
 
     .app {
       max-width: 430px;
       margin: 0 auto;
+      min-height: 100vh;
+      padding-bottom: 110px;
+    }
+
+    .panel {
+      background: linear-gradient(180deg, rgba(19,25,23,0.98), rgba(13,17,16,0.98));
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 28px;
+      overflow: hidden;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.35);
     }
 
     .topbar {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 14px;
-      padding: 4px 2px;
+      padding: 18px 18px 14px;
     }
 
     .brand {
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 10px;
       font-size: 18px;
       font-weight: 700;
-      color: #2e7d32;
     }
 
-    .top-actions {
+    .brand-badge {
+      width: 42px;
+      height: 42px;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.06);
       font-size: 22px;
     }
 
-    .hero {
-      background: #e8f5e9;
-      border-radius: 22px;
-      padding: 18px;
-      margin-bottom: 18px;
+    .top-actions {
+      display: flex;
+      gap: 10px;
     }
 
-    .hero-badge {
-      display: inline-block;
-      background: #dff0df;
-      color: #3d6f3f;
+    .icon-btn {
+      width: 46px;
+      height: 46px;
+      border-radius: 18px;
+      border: 1px solid rgba(255,255,255,0.08);
+      background: rgba(255,255,255,0.04);
+      color: #f3f5f4;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      cursor: pointer;
+    }
+
+    .hero {
+      margin: 0 18px 16px;
+      padding: 18px;
+      border-radius: 26px;
+      background:
+        radial-gradient(circle at top right, rgba(20,210,127,0.20), transparent 35%),
+        radial-gradient(circle at left center, rgba(20,210,127,0.10), transparent 30%),
+        linear-gradient(135deg, #121917, #0b0f0f 72%);
+      border: 1px solid rgba(255,255,255,0.06);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(20,210,127,0.12);
+      color: #14d27f;
       font-size: 12px;
       font-weight: 700;
-      padding: 7px 12px;
-      border-radius: 999px;
       margin-bottom: 14px;
+      border: 1px solid rgba(20,210,127,0.18);
     }
 
     .hero h1 {
       margin: 0 0 10px;
-      font-size: 28px;
-      line-height: 1.1;
+      font-size: 34px;
+      line-height: 1.02;
+      letter-spacing: -0.03em;
     }
 
     .hero p {
       margin: 0 0 16px;
+      color: rgba(243,245,244,0.68);
       font-size: 15px;
       line-height: 1.45;
-      color: #5f6d5f;
+      max-width: 280px;
     }
 
-    .hero button {
-      background: #2e7d32;
-      color: white;
-      border: none;
-      padding: 12px 16px;
-      border-radius: 14px;
-      font-size: 15px;
-      font-weight: 700;
-      cursor: pointer;
-    }
-
-    .categories {
+    .hero-actions {
       display: flex;
-      gap: 12px;
-      overflow-x: auto;
-      padding-bottom: 4px;
-      margin-bottom: 22px;
+      gap: 10px;
+      flex-wrap: wrap;
     }
 
-    .categories::-webkit-scrollbar {
+    .primary-btn, .secondary-btn, .tab-btn, .buy-btn, .big-btn {
+      border: none;
+      cursor: pointer;
+      font-weight: 700;
+      transition: transform 0.15s ease, opacity 0.15s ease;
+    }
+
+    .primary-btn:active,
+    .secondary-btn:active,
+    .tab-btn:active,
+    .buy-btn:active,
+    .big-btn:active,
+    .icon-btn:active {
+      transform: scale(0.98);
+    }
+
+    .primary-btn {
+      background: #14d27f;
+      color: #07110c;
+      padding: 14px 18px;
+      border-radius: 18px;
+      font-size: 15px;
+      box-shadow: 0 8px 24px rgba(20,210,127,0.22);
+    }
+
+    .secondary-btn {
+      background: rgba(255,255,255,0.05);
+      color: #f3f5f4;
+      padding: 14px 18px;
+      border-radius: 18px;
+      font-size: 15px;
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .tabs {
+      display: flex;
+      gap: 10px;
+      overflow-x: auto;
+      padding: 0 18px 14px;
+    }
+
+    .tabs::-webkit-scrollbar {
       display: none;
     }
 
-    .cat {
-      min-width: 74px;
-      text-align: center;
-      flex-shrink: 0;
+    .tab-btn {
+      flex: 0 0 auto;
+      padding: 14px 24px;
+      border-radius: 22px;
+      background: rgba(255,255,255,0.04);
+      color: rgba(243,245,244,0.72);
+      border: 1px solid rgba(255,255,255,0.07);
+      font-size: 15px;
     }
 
-    .cat-icon {
-      width: 62px;
-      height: 62px;
-      margin: 0 auto 8px;
-      background: #e8f5e9;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 24px;
-    }
-
-    .cat small {
-      font-size: 12px;
-      color: #425142;
-      font-weight: 600;
+    .tab-btn.active {
+      background: #14d27f;
+      color: #07110c;
+      box-shadow: 0 8px 22px rgba(20,210,127,0.22);
     }
 
     .section-head {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 14px;
+      padding: 4px 18px 14px;
     }
 
     .section-head h2 {
@@ -135,240 +202,504 @@
       font-size: 22px;
     }
 
-    .section-link {
-      color: #2e7d32;
+    .ghost-link {
+      color: #14d27f;
       font-size: 14px;
       font-weight: 700;
+      cursor: pointer;
     }
 
     .products {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 14px;
-      margin-bottom: 18px;
+      padding: 0 18px 18px;
     }
 
     .card {
-      background: white;
-      border-radius: 18px;
+      background: linear-gradient(180deg, #171d1d, #131717);
+      border-radius: 26px;
       overflow: hidden;
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
+      border: 1px solid rgba(255,255,255,0.06);
+      box-shadow: 0 12px 28px rgba(0,0,0,0.22);
     }
 
-    .card img {
+    .card-image-wrap {
+      position: relative;
+      background: #f2f3f0;
+      height: 180px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .card-image-wrap img {
       width: 100%;
-      height: 150px;
+      height: 100%;
       object-fit: cover;
       display: block;
     }
 
+    .card-badge {
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      padding: 7px 12px;
+      background: rgba(20,210,127,0.14);
+      color: #14d27f;
+      border: 1px solid rgba(20,210,127,0.22);
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 700;
+      backdrop-filter: blur(10px);
+    }
+
+    .card-dot {
+      position: absolute;
+      top: 14px;
+      right: 14px;
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: #14d27f;
+      box-shadow: 0 0 14px rgba(20,210,127,0.45);
+    }
+
     .card-content {
-      padding: 12px;
+      padding: 14px;
     }
 
     .card-title {
-      font-size: 16px;
+      font-size: 18px;
+      line-height: 1.2;
       font-weight: 700;
+      margin-bottom: 10px;
+      min-height: 44px;
+    }
+
+    .price-row {
+      display: flex;
+      align-items: baseline;
+      gap: 8px;
       margin-bottom: 6px;
     }
 
-    .card-subtitle {
+    .price-main {
+      font-size: 22px;
+      font-weight: 800;
+      color: #14d27f;
+    }
+
+    .price-old {
       font-size: 12px;
-      color: #7a7a7a;
-      margin-bottom: 10px;
+      color: rgba(243,245,244,0.45);
     }
 
-    .price {
-      font-size: 18px;
-      font-weight: 700;
-      margin-bottom: 10px;
-    }
-
-    .buy {
-      background: #2e7d32;
-      color: white;
-      border: none;
+    .buy-btn {
       width: 100%;
-      padding: 11px;
-      border-radius: 12px;
-      font-size: 14px;
-      font-weight: 700;
-      cursor: pointer;
+      padding: 13px;
+      border-radius: 18px;
+      background: rgba(20,210,127,0.10);
+      color: #14d27f;
+      border: 1px solid rgba(20,210,127,0.20);
+      font-size: 15px;
+      margin-top: 12px;
     }
 
-    .info-grid {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 10px;
-      margin-bottom: 18px;
-    }
-
-    .info-card {
-      background: #f0f4ed;
-      border-radius: 16px;
-      padding: 14px;
-      font-size: 14px;
-      color: #445244;
-    }
-
-    .info-card strong {
-      display: block;
-      color: #222;
-      margin-bottom: 4px;
-    }
-
-    .footer-link {
-      display: block;
+    .helper-card {
+      margin: 0 18px 18px;
+      padding: 18px;
+      border-radius: 26px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02));
+      border: 1px solid rgba(255,255,255,0.06);
       text-align: center;
-      background: white;
-      color: #2e7d32;
-      text-decoration: none;
-      padding: 14px;
-      border-radius: 16px;
-      font-weight: 700;
-      border: 1px solid #e0e8dd;
-      margin-bottom: 16px;
+    }
+
+    .helper-icon {
+      width: 78px;
+      height: 78px;
+      margin: 0 auto 14px;
+      border-radius: 28px;
+      background: rgba(20,210,127,0.12);
+      border: 1px solid rgba(20,210,127,0.16);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 34px;
+      color: #14d27f;
+      box-shadow: 0 0 40px rgba(20,210,127,0.08);
+    }
+
+    .helper-card h3 {
+      margin: 0 0 10px;
+      font-size: 28px;
+    }
+
+    .helper-card p {
+      margin: 0 0 18px;
+      color: rgba(243,245,244,0.62);
+      line-height: 1.5;
+      font-size: 15px;
+    }
+
+    .big-btn {
+      width: 100%;
+      padding: 17px 18px;
+      border-radius: 20px;
+      background: #14d27f;
+      color: #07110c;
+      font-size: 16px;
+      box-shadow: 0 10px 30px rgba(20,210,127,0.22);
     }
 
     .bottom-nav {
+      position: fixed;
+      left: 50%;
+      bottom: 16px;
+      transform: translateX(-50%);
+      width: min(402px, calc(100vw - 28px));
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 8px;
-      background: white;
-      border-radius: 20px;
-      padding: 10px 8px;
-      box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      padding: 12px;
+      border-radius: 30px;
+      background: rgba(36,42,41,0.82);
+      backdrop-filter: blur(18px);
+      border: 1px solid rgba(255,255,255,0.08);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.35);
     }
 
-    .nav-item {
-      text-align: center;
-      font-size: 12px;
-      color: #6a6a6a;
+    .nav-btn {
+      border: none;
+      background: transparent;
+      color: rgba(243,245,244,0.70);
+      padding: 14px 10px;
+      border-radius: 22px;
+      font-size: 14px;
+      cursor: pointer;
     }
 
-    .nav-item.active {
-      color: #2e7d32;
+    .nav-btn.active {
+      background: rgba(20,210,127,0.18);
+      color: #14d27f;
       font-weight: 700;
     }
 
     .nav-icon {
       display: block;
-      font-size: 20px;
-      margin-bottom: 4px;
+      font-size: 24px;
+      margin-bottom: 6px;
+    }
+
+    .modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(3,5,5,0.84);
+      backdrop-filter: blur(12px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 18px;
+      z-index: 30;
+    }
+
+    .modal.show {
+      display: flex;
+    }
+
+    .modal-card {
+      width: 100%;
+      max-width: 420px;
+      border-radius: 30px;
+      padding: 22px;
+      background:
+        radial-gradient(circle at top, rgba(20,210,127,0.12), transparent 36%),
+        linear-gradient(180deg, #101515, #090c0c);
+      border: 1px solid rgba(255,255,255,0.08);
+      position: relative;
+      min-height: 520px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      text-align: center;
+    }
+
+    .close-btn {
+      position: absolute;
+      top: 18px;
+      right: 18px;
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      border: none;
+      background: rgba(255,255,255,0.05);
+      color: white;
+      font-size: 24px;
+      cursor: pointer;
+    }
+
+    .slide-icon {
+      width: 88px;
+      height: 88px;
+      margin: 0 auto 18px;
+      border-radius: 32px;
+      background: rgba(20,210,127,0.12);
+      border: 1px solid rgba(20,210,127,0.18);
+      color: #14d27f;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 40px;
+    }
+
+    .slide-title {
+      font-size: 28px;
+      font-weight: 800;
+      margin-bottom: 14px;
+    }
+
+    .slide-text {
+      font-size: 16px;
+      line-height: 1.55;
+      color: rgba(243,245,244,0.68);
+      margin-bottom: 24px;
+    }
+
+    .slide-points {
+      text-align: left;
+      margin: 0 auto 28px;
+      max-width: 260px;
+      color: rgba(243,245,244,0.72);
+      line-height: 1.8;
+      font-size: 15px;
+    }
+
+    .dots {
+      display: flex;
+      gap: 8px;
+      justify-content: center;
+      margin-bottom: 18px;
+    }
+
+    .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.18);
+    }
+
+    .dot.active {
+      width: 26px;
+      background: #14d27f;
+    }
+
+    @media (max-width: 380px) {
+      .products {
+        grid-template-columns: 1fr;
+      }
+
+      .hero h1 {
+        font-size: 30px;
+      }
     }
   </style>
 </head>
 <body>
   <div class="app">
-    <div class="topbar">
-      <div class="brand">
-        <span>🌿</span>
-        <span>GreenWay</span>
-      </div>
-      <div class="top-actions">🛒</div>
-    </div>
+    <div class="panel">
+      <div class="topbar">
+        <div class="brand">
+          <div class="brand-badge">🦆</div>
+          <div>Swimming Bot</div>
+        </div>
 
-    <div class="hero">
-      <div class="hero-badge">100% LEGAL • Healthy</div>
-      <h1>Natural support every day</h1>
-      <p>Premium products for balance and calm</p>
-      <button onclick="openBot()">Browse the catalogue</button>
-    </div>
-
-    <div class="categories">
-      <div class="cat">
-        <div class="cat-icon">🌿</div>
-        <small>Flowets</small>
-      </div>
-      <div class="cat">
-        <div class="cat-icon">🧴</div>
-        <small>Oils</small>
-      </div>
-      <div class="cat">
-        <div class="cat-icon">💊</div>
-        <small>Capsules</small>
-      </div>
-      <div class="cat">
-        <div class="cat-icon">🧼</div>
-        <small>Cosmetics</small>
-      </div>
-      <div class="cat">
-        <div class="cat-icon">🍵</div>
-        <small>Tea</small>
-      </div>
-    </div>
-
-    <div class="section-head">
-      <h2>Popular</h2>
-      <div class="section-link">View all</div>
-    </div>
-
-    <div class="products">
-      <div class="card">
-        <img src="https://images.unsplash.com/photo-1519315901367-f34ff9154487?auto=format&fit=crop&w=800&q=80" alt="Абонемент" />
-        <div class="card-content">
-          <div class="card-title">Pass</div>
-          <div class="card-subtitle">Basic plan</div>
-          <div class="price">€49</div>
-          <button class="buy" onclick="buy('Pass')">Add</button>
+        <div class="top-actions">
+          <button class="icon-btn" onclick="openHowItWorks()">?</button>
         </div>
       </div>
 
-      <div class="card">
-        <img src="https://images.unsplash.com/photo-1600965962361-9035dbfd1c50?auto=format&fit=crop&w=800&q=80" alt="Детский" />
-        <div class="card-content">
-          <div class="card-title">Children</div>
-          <div class="card-subtitle">For new</div>
-          <div class="price">€35</div>
-          <button class="buy" onclick="buy('Children')">Add</button>
+      <div class="hero">
+        <div class="hero-tag">SMART REMINDERS</div>
+        <h1>Simple. Clear. Useful.</h1>
+        <p>Track plans, browse offers, and manage everything in a cleaner interface without extra clutter.</p>
+
+        <div class="hero-actions">
+          <button class="primary-btn" onclick="openBot()">Open Bot</button>
+          <button class="secondary-btn" onclick="openHowItWorks()">How it works</button>
         </div>
       </div>
-    </div>
 
-    <div class="info-grid">
-      <div class="info-card">
-        <strong>Fast delivery</strong>
-        Varies by product
+      <div class="tabs">
+        <button class="tab-btn active">All</button>
+        <button class="tab-btn">Plans</button>
+        <button class="tab-btn">Training</button>
       </div>
-      <div class="info-card">
-        <strong>Unrivaled quality</strong>
-        Reliable and safe
-      </div>
-      <div class="info-card">
-        <strong>Quality verified</strong>
-        Lab tested
-      </div>
-    </div>
 
-    <a class="footer-link" href="https://t.me/SwimmingNotificationsBot">Open bot</a>
+      <div class="section-head">
+        <h2>Popular</h2>
+        <div class="ghost-link" onclick="openHowItWorks()">How it works</div>
+      </div>
 
-    <div class="bottom-nav">
-      <div class="nav-item active">
-        <span class="nav-icon">🏠</span>
-        Home
+      <div class="products">
+        <div class="card">
+          <div class="card-image-wrap">
+            <span class="card-badge">Bestseller</span>
+            <span class="card-dot"></span>
+            <img src="https://images.unsplash.com/photo-1519315901367-f34ff9154487?auto=format&fit=crop&w=900&q=80" alt="Standard Plan">
+          </div>
+          <div class="card-content">
+            <div class="card-title">Standard Plan</div>
+            <div class="price-row">
+              <div class="price-main">€49</div>
+              <div class="price-old">basic access</div>
+            </div>
+            <button class="buy-btn" onclick="buy('Standard Plan')">Add to cart</button>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-image-wrap">
+            <span class="card-badge">Popular</span>
+            <span class="card-dot"></span>
+            <img src="https://images.unsplash.com/photo-1600965962361-9035dbfd1c50?auto=format&fit=crop&w=900&q=80" alt="Kids Plan">
+          </div>
+          <div class="card-content">
+            <div class="card-title">Kids Plan</div>
+            <div class="price-row">
+              <div class="price-main">€35</div>
+              <div class="price-old">starter option</div>
+            </div>
+            <button class="buy-btn" onclick="buy('Kids Plan')">Add to cart</button>
+          </div>
+        </div>
       </div>
-      <div class="nav-item">
-        <span class="nav-icon">📦</span>
-        Catalog
-      </div>
-      <div class="nav-item">
-        <span class="nav-icon">❤️</span>
-        Favorites
-      </div>
-      <div class="nav-item">
-        <span class="nav-icon">👤</span>
-        Profile
+
+      <div class="helper-card">
+        <div class="helper-icon">🛒</div>
+        <h3>Clean user flow</h3>
+        <p>Fewer buttons, clearer actions, and a simple onboarding flow that explains everything in 3 steps.</p>
+        <button class="big-btn" onclick="openHowItWorks()">Open guide</button>
       </div>
     </div>
   </div>
 
+  <div class="bottom-nav">
+    <button class="nav-btn active">
+      <span class="nav-icon">🏠</span>
+      Home
+    </button>
+    <button class="nav-btn">
+      <span class="nav-icon">🛒</span>
+      Cart
+    </button>
+    <button class="nav-btn">
+      <span class="nav-icon">👤</span>
+      Profile
+    </button>
+  </div>
+
+  <div class="modal" id="howModal">
+    <div class="modal-card">
+      <button class="close-btn" onclick="closeHowItWorks()">✕</button>
+
+      <div class="slide" id="slideContent"></div>
+
+      <div class="dots" id="dots"></div>
+
+      <button class="big-btn" onclick="nextSlide()" id="nextBtn">Continue</button>
+    </div>
+  </div>
+
   <script>
+    const BOT_LINK = "https://t.me/SwimmingNotificationsBot";
+
     function buy(name) {
-      alert(name + " Added!");
+      alert(name + " added!");
     }
 
     function openBot() {
-      window.open("https://t.me/SwimmingNotificationsBot");
+      if (window.Telegram && Telegram.WebApp) {
+        Telegram.WebApp.openTelegramLink(BOT_LINK);
+      } else {
+        window.location.href = BOT_LINK;
+      }
+    }
+
+    const slides = [
+      {
+        icon: "🛍️",
+        title: "Browse & Add",
+        text: "Explore products, choose what you need, and add items to cart in one tap.",
+        points: [
+          "Browse available items",
+          "Open product cards",
+          "Add products instantly"
+        ]
+      },
+      {
+        icon: "🚚",
+        title: "Choose & Confirm",
+        text: "Select the best option, confirm your choice, and continue without confusion.",
+        points: [
+          "Pick your preferred option",
+          "Review your selection",
+          "Continue to the next step"
+        ]
+      },
+      {
+        icon: "💬",
+        title: "Stay In Control",
+        text: "Everything stays simple: clear actions, clear buttons, and a cleaner mini app experience.",
+        points: [
+          "Easy navigation",
+          "Minimal clutter",
+          "Fast user flow"
+        ]
+      }
+    ];
+
+    let currentSlide = 0;
+
+    function renderSlide() {
+      const slide = slides[currentSlide];
+      const slideContent = document.getElementById("slideContent");
+      const dots = document.getElementById("dots");
+      const nextBtn = document.getElementById("nextBtn");
+
+      slideContent.innerHTML = `
+        <div class="slide-icon">${slide.icon}</div>
+        <div class="slide-title">${slide.title}</div>
+        <div class="slide-text">${slide.text}</div>
+        <div class="slide-points">
+          ${slide.points.map(point => `<div>• ${point}</div>`).join("")}
+        </div>
+      `;
+
+      dots.innerHTML = slides
+        .map((_, i) => `<div class="dot ${i === currentSlide ? "active" : ""}"></div>`)
+        .join("");
+
+      nextBtn.textContent = currentSlide === slides.length - 1 ? "Done" : "Continue";
+    }
+
+    function openHowItWorks() {
+      currentSlide = 0;
+      renderSlide();
+      document.getElementById("howModal").classList.add("show");
+    }
+
+    function closeHowItWorks() {
+      document.getElementById("howModal").classList.remove("show");
+    }
+
+    function nextSlide() {
+      if (currentSlide < slides.length - 1) {
+        currentSlide++;
+        renderSlide();
+      } else {
+        closeHowItWorks();
+      }
     }
   </script>
 </body>
