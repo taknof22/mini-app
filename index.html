@@ -1,160 +1,375 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="eu">
 <head>
-<meta charset="UTF-8">
-<title>Mini App</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mini App</title>
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
 
-<script src="https://telegram.org/js/telegram-web-app.js"></script>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
 
-<style>
-body {
-  font-family: Arial;
-  background: #f5f5f5;
-  margin: 0;
-  padding: 15px;
-}
+    body {
+      margin: 0;
+      padding: 14px;
+      font-family: Arial, sans-serif;
+      background: #f5f7f3;
+      color: #1f1f1f;
+    }
 
-.header {
-  font-size: 26px;
-  font-weight: bold;
-  margin-bottom: 15px;
-}
+    .app {
+      max-width: 430px;
+      margin: 0 auto;
+    }
 
-.menu {
-  display: flex;
-  gap: 8px;
-  margin-bottom: 15px;
-  overflow-x: auto;
-}
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 14px;
+      padding: 4px 2px;
+    }
 
-.menu button {
-  background: white;
-  border: none;
-  padding: 10px 14px;
-  border-radius: 20px;
-  font-weight: bold;
-}
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 18px;
+      font-weight: 700;
+      color: #2e7d32;
+    }
 
-.category {
-  background: white;
-  padding: 15px;
-  border-radius: 15px;
-  margin-bottom: 10px;
-}
+    .top-actions {
+      font-size: 22px;
+    }
 
-.products {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px;
-  margin-top: 10px;
-}
+    .hero {
+      background: #e8f5e9;
+      border-radius: 22px;
+      padding: 18px;
+      margin-bottom: 18px;
+    }
 
-.card {
-  background: white;
-  border-radius: 15px;
-  overflow: hidden;
-}
+    .hero-badge {
+      display: inline-block;
+      background: #dff0df;
+      color: #3d6f3f;
+      font-size: 12px;
+      font-weight: 700;
+      padding: 7px 12px;
+      border-radius: 999px;
+      margin-bottom: 14px;
+    }
 
-.card img {
-  width: 100%;
-  height: 120px;
-  object-fit: cover;
-}
+    .hero h1 {
+      margin: 0 0 10px;
+      font-size: 28px;
+      line-height: 1.1;
+    }
 
-.card-content {
-  padding: 10px;
-}
+    .hero p {
+      margin: 0 0 16px;
+      font-size: 15px;
+      line-height: 1.45;
+      color: #5f6d5f;
+    }
 
-.price {
-  font-weight: bold;
-  margin-top: 5px;
-}
+    .hero button {
+      background: #2e7d32;
+      color: white;
+      border: none;
+      padding: 12px 16px;
+      border-radius: 14px;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+    }
 
-button.buy {
-  width: 100%;
-  margin-top: 10px;
-  background: black;
-  color: white;
-  border: none;
-  padding: 10px;
-  border-radius: 10px;
-}
+    .categories {
+      display: flex;
+      gap: 12px;
+      overflow-x: auto;
+      padding-bottom: 4px;
+      margin-bottom: 22px;
+    }
 
-.footer {
-  margin-top: 20px;
-  text-align: center;
-}
+    .categories::-webkit-scrollbar {
+      display: none;
+    }
 
-.footer a {
-  display: block;
-  background: black;
-  color: white;
-  padding: 12px;
-  border-radius: 15px;
-  text-decoration: none;
-}
-</style>
+    .cat {
+      min-width: 74px;
+      text-align: center;
+      flex-shrink: 0;
+    }
+
+    .cat-icon {
+      width: 62px;
+      height: 62px;
+      margin: 0 auto 8px;
+      background: #e8f5e9;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+    }
+
+    .cat small {
+      font-size: 12px;
+      color: #425142;
+      font-weight: 600;
+    }
+
+    .section-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 14px;
+    }
+
+    .section-head h2 {
+      margin: 0;
+      font-size: 22px;
+    }
+
+    .section-link {
+      color: #2e7d32;
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .products {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin-bottom: 18px;
+    }
+
+    .card {
+      background: white;
+      border-radius: 18px;
+      overflow: hidden;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
+    }
+
+    .card img {
+      width: 100%;
+      height: 150px;
+      object-fit: cover;
+      display: block;
+    }
+
+    .card-content {
+      padding: 12px;
+    }
+
+    .card-title {
+      font-size: 16px;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+
+    .card-subtitle {
+      font-size: 12px;
+      color: #7a7a7a;
+      margin-bottom: 10px;
+    }
+
+    .price {
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+
+    .buy {
+      background: #2e7d32;
+      color: white;
+      border: none;
+      width: 100%;
+      padding: 11px;
+      border-radius: 12px;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .info-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 10px;
+      margin-bottom: 18px;
+    }
+
+    .info-card {
+      background: #f0f4ed;
+      border-radius: 16px;
+      padding: 14px;
+      font-size: 14px;
+      color: #445244;
+    }
+
+    .info-card strong {
+      display: block;
+      color: #222;
+      margin-bottom: 4px;
+    }
+
+    .footer-link {
+      display: block;
+      text-align: center;
+      background: white;
+      color: #2e7d32;
+      text-decoration: none;
+      padding: 14px;
+      border-radius: 16px;
+      font-weight: 700;
+      border: 1px solid #e0e8dd;
+      margin-bottom: 16px;
+    }
+
+    .bottom-nav {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+      background: white;
+      border-radius: 20px;
+      padding: 10px 8px;
+      box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
+    }
+
+    .nav-item {
+      text-align: center;
+      font-size: 12px;
+      color: #6a6a6a;
+    }
+
+    .nav-item.active {
+      color: #2e7d32;
+      font-weight: 700;
+    }
+
+    .nav-icon {
+      display: block;
+      font-size: 20px;
+      margin-bottom: 4px;
+    }
+  </style>
 </head>
-
 <body>
+  <div class="app">
+    <div class="topbar">
+      <div class="brand">
+        <span>🌿</span>
+        <span>GreenWay</span>
+      </div>
+      <div class="top-actions">🛒</div>
+    </div>
 
-  <div class="hero">
-  <div class="logo">🦆</div>
+    <div class="hero">
+      <div class="hero-badge">100% LEGAL • Healthy</div>
+      <h1>Natural support every day</h1>
+      <p>Premium products for balance and calm</p>
+      <button onclick="openBot()">Browse the catalogue</button>
+    </div>
 
-  <h1>Swimming Bot</h1>
-  <p>Умные напоминания и контроль тренировок</p>
+    <div class="categories">
+      <div class="cat">
+        <div class="cat-icon">🌿</div>
+        <small>Flowets</small>
+      </div>
+      <div class="cat">
+        <div class="cat-icon">🧴</div>
+        <small>Oils</small>
+      </div>
+      <div class="cat">
+        <div class="cat-icon">💊</div>
+        <small>Capsules</small>
+      </div>
+      <div class="cat">
+        <div class="cat-icon">🧼</div>
+        <small>Cosmetics</small>
+      </div>
+      <div class="cat">
+        <div class="cat-icon">🍵</div>
+        <small>Tea</small>
+      </div>
+    </div>
 
-  <button onclick="openBot()">Открыть бота</button>
-</div>
-<div class="header">Каталог</div>
+    <div class="section-head">
+      <h2>Popular</h2>
+      <div class="section-link">View all</div>
+    </div>
 
-<div class="menu">
-  <button>Главная</button>
-  <button>Абонементы</button>
-  <button>Тренировки</button>
-  <button>Аксессуары</button>
-</div>
+    <div class="products">
+      <div class="card">
+        <img src="https://images.unsplash.com/photo-1519315901367-f34ff9154487?auto=format&fit=crop&w=800&q=80" alt="Абонемент" />
+        <div class="card-content">
+          <div class="card-title">Pass</div>
+          <div class="card-subtitle">Basic plan</div>
+          <div class="price">€49</div>
+          <button class="buy" onclick="buy('Pass')">Add</button>
+        </div>
+      </div>
 
-<div class="category">
-  <h3>Абонементы</h3>
-  <p>Выбери подходящий вариант</p>
-</div>
+      <div class="card">
+        <img src="https://images.unsplash.com/photo-1600965962361-9035dbfd1c50?auto=format&fit=crop&w=800&q=80" alt="Детский" />
+        <div class="card-content">
+          <div class="card-title">Children</div>
+          <div class="card-subtitle">For new</div>
+          <div class="price">€35</div>
+          <button class="buy" onclick="buy('Children')">Add</button>
+        </div>
+      </div>
+    </div>
 
-<div class="products">
+    <div class="info-grid">
+      <div class="info-card">
+        <strong>Fast delivery</strong>
+        Varies by product
+      </div>
+      <div class="info-card">
+        <strong>Unrivaled quality</strong>
+        Reliable and safe
+      </div>
+      <div class="info-card">
+        <strong>Quality verified</strong>
+        Lab tested
+      </div>
+    </div>
 
-  <div class="card">
-    <img src="https://images.unsplash.com/photo-1519315901367-f34ff9154487">
-    <div class="card-content">
-      <div>Абонемент</div>
-      <div class="price">€49</div>
-      <button class="buy" onclick="buy()">Добавить</button>
+    <a class="footer-link" href="https://t.me/SwimmingNotificationsBot">Open bot</a>
+
+    <div class="bottom-nav">
+      <div class="nav-item active">
+        <span class="nav-icon">🏠</span>
+        Home
+      </div>
+      <div class="nav-item">
+        <span class="nav-icon">📦</span>
+        Catalog
+      </div>
+      <div class="nav-item">
+        <span class="nav-icon">❤️</span>
+        Favorites
+      </div>
+      <div class="nav-item">
+        <span class="nav-icon">👤</span>
+        Profile
+      </div>
     </div>
   </div>
 
-  <div class="card">
-    <img src="https://images.unsplash.com/photo-1600965962361-9035dbfd1c50">
-    <div class="card-content">
-      <div>Детский</div>
-      <div class="price">€35</div>
-      <button class="buy" onclick="buy()">Добавить</button>
-    </div>
-  </div>
+  <script>
+    function buy(name) {
+      alert(name + " Added!");
+    }
 
-</div>
-
-<div class="footer">
-  <a href="https://t.me/SwimmingNotificationsBot">Открыть бота</a>
-</div>
-
-<script>
-function buy() {
-  alert("Добавлено!");
-}
-
-function openBot() {
-  window.open("https://t.me/SwimmingNotificationsBot");
-}
-</script>
-
+    function openBot() {
+      window.open("https://t.me/SwimmingNotificationsBot");
+    }
+  </script>
 </body>
 </html>
