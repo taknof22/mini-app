@@ -1,0 +1,146 @@
+:root {
+  --bg: #f8f7f3;
+  --card: #ffffff;
+  --text: #1b2a1e;
+  --muted: #6c756f;
+  --accent: #264d38;
+  --accent-soft: #dde9df;
+  --border: #e6e8e0;
+}
+
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  font-family: Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background: linear-gradient(170deg, #ffffff 0%, var(--bg) 65%, #eef4ee 100%);
+  color: var(--text);
+}
+
+a { color: inherit; text-decoration: none; }
+
+.page-shell {
+  width: min(1120px, 92%);
+  margin: 2rem auto 4rem;
+  min-height: 72vh;
+}
+
+.nav-shell {
+  position: sticky;
+  top: 0;
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid rgba(231, 233, 227, 0.8);
+  background: rgba(255, 255, 255, 0.8);
+  z-index: 20;
+}
+
+.nav {
+  width: min(1120px, 92%);
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 0;
+}
+
+.logo { font-weight: 700; letter-spacing: 0.2rem; }
+.nav-links { display: flex; gap: 1rem; flex-wrap: wrap; }
+.nav-links a { color: var(--muted); font-size: 0.95rem; }
+.nav-links a.active, .nav-links a:hover { color: var(--accent); }
+
+.hero {
+  background: radial-gradient(circle at top right, #e9f3e9, #ffffff 60%);
+  border: 1px solid var(--border);
+  border-radius: 1.5rem;
+  padding: 3.5rem clamp(1.2rem, 4vw, 3rem);
+}
+
+.eyebrow { text-transform: uppercase; letter-spacing: 0.18rem; font-size: 0.74rem; color: var(--muted); }
+h1 { font-size: clamp(2rem, 5vw, 3.2rem); margin: 0.5rem 0 0.75rem; }
+h2 { margin: 0; }
+
+.hero-actions { display: flex; gap: 0.75rem; flex-wrap: wrap; margin-top: 1.5rem; }
+.primary-btn, .ghost-btn {
+  border: 1px solid transparent;
+  border-radius: 999px;
+  padding: 0.65rem 1.1rem;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 220ms ease;
+}
+.primary-btn { background: var(--accent); color: #fff; }
+.primary-btn.added { background: #3c6d52; }
+.primary-btn:hover { transform: translateY(-1px); opacity: 0.95; }
+.ghost-btn { background: #fff; border-color: var(--border); color: var(--text); }
+.ghost-btn:hover { border-color: #cbd2c8; }
+
+.stack-lg { display: grid; gap: 2rem; }
+.stack-md { display: grid; gap: 1rem; }
+.grid { display: grid; gap: 1rem; }
+.cards-grid { grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
+.row-between { display: flex; justify-content: space-between; align-items: center; gap: 0.5rem; }
+.gap-sm { gap: 0.5rem; }
+
+.product-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 1.1rem;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+.image-wrap img, .product-image { width: 100%; height: 220px; object-fit: cover; display: block; }
+.product-content { padding: 1rem; display: grid; gap: 0.75rem; }
+.category { font-size: 0.8rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08rem; }
+.description { color: var(--muted); font-size: 0.92rem; margin: 0; }
+
+.pill-wrap { display: flex; flex-wrap: wrap; gap: 0.6rem; }
+.pill {
+  border: 1px solid #c9d8cb;
+  background: var(--accent-soft);
+  color: var(--accent);
+  border-radius: 999px;
+  padding: 0.4rem 0.9rem;
+  font-size: 0.85rem;
+}
+
+.section-header p, p { color: var(--muted); }
+.simple-link { color: var(--accent); font-weight: 500; }
+
+.product-page {
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  gap: 1.5rem;
+  align-items: start;
+}
+.product-image { height: min(72vh, 580px); border-radius: 1.2rem; border: 1px solid var(--border); }
+.product-details { background: #fff; border: 1px solid var(--border); border-radius: 1.2rem; padding: 1.2rem; }
+
+.list-item, .profile-card {
+  border: 1px solid var(--border);
+  background: #fff;
+  border-radius: 1rem;
+  padding: 1rem 1.1rem;
+}
+
+.footer {
+  border-top: 1px solid var(--border);
+  padding: 1.5rem;
+  text-align: center;
+  color: var(--muted);
+}
+
+.fade-up { animation: fadeUp 550ms ease both; }
+.fade-in { animation: fadeIn 600ms ease both; }
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@media (max-width: 800px) {
+  .product-page { grid-template-columns: 1fr; }
+  .nav { flex-direction: column; gap: 0.7rem; align-items: flex-start; }
+}
