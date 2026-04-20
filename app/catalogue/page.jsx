@@ -1,19 +1,29 @@
-import ProductCard from '@/components/product-card';
-import CategoryPills from '@/components/category-pills';
-import { categories, products } from '@/data/products';
+'use client';
+
+import { useEffect, useState } from 'react';
 
 export default function CataloguePage() {
+  const [selectedCity, setSelectedCity] = useState(null);
+
+  useEffect(() => {
+    const raw = localStorage.getItem('selectedCity');
+    if (!raw) return;
+
+    try {
+      setSelectedCity(JSON.parse(raw));
+    } catch {
+      setSelectedCity(null);
+    }
+  }, []);
+
   return (
-    <section className="stack-lg">
-      <div className="section-header fade-up">
+    <section className="onboarding-shell">
+      <div className="glass-card catalogue-card">
         <h1>Catalogue</h1>
-        <p>Curated CBD essentials crafted with purity, consistency, and premium botanicals.</p>
-      </div>
-      <CategoryPills categories={categories} />
-      <div className="grid cards-grid">
-        {products.map((product) => (
-          <ProductCard key={product.id} product={product} />
-        ))}
+        <p>
+          Current city:{' '}
+          {selectedCity ? `${selectedCity.name}, ${selectedCity.country}` : 'No city selected yet.'}
+        </p>
       </div>
     </section>
   );

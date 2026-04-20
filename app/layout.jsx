@@ -1,22 +1,16 @@
 import './globals.css';
-import Navbar from '@/components/navbar';
-import Footer from '@/components/footer';
 import { ShopProvider } from '@/context/shop-context';
 
 export const metadata = {
-  title: 'VERDE CBD',
-  description: 'Premium CBD products for balance and calm.'
+  title: 'Herbi Mini App',
+  description: 'Telegram-style mini e-commerce onboarding flow.'
 };
 
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body>
-        <ShopProvider>
-          <Navbar />
-          <main className="page-shell">{children}</main>
-          <Footer />
-        </ShopProvider>
+        <ShopProvider>{children}</ShopProvider>
       </body>
     </html>
   );
