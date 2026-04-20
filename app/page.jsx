@@ -1,37 +1,37 @@
-import Link from 'next/link';
-import ProductCard from '@/components/product-card';
-import CategoryPills from '@/components/category-pills';
-import { categories, products } from '@/data/products';
+'use client';
+
+import { useRouter } from 'next/navigation';
+import { useState } from 'react';
+import StartScreen from '@/components/StartScreen';
+import LocationModal from '@/components/LocationModal';
+
+const DEFAULT_CITY = { name: 'Dublin', country: 'Ireland' };
 
 export default function HomePage() {
+  const router = useRouter();
+  const [isModalOpen, setModalOpen] = useState(false);
+
+  const cityValue = `${DEFAULT_CITY.name}, ${DEFAULT_CITY.country}`;
+
+  const handleContinue = () => {
+    localStorage.setItem('selectedCity', JSON.stringify(DEFAULT_CITY));
+    router.push('/catalogue');
+  };
+
+  const handleSelectCity = () => {
+    router.push('/select-city');
+  };
+
   return (
-    <section className="stack-lg">
-      <section className="hero fade-up">
-        <p className="eyebrow">Premium CBD Collection</p>
-        <h1>Premium CBD products for balance and calm</h1>
-        <p>Natural support every day</p>
-        <div className="hero-actions">
-          <Link href="/catalogue" className="primary-btn">Explore Catalogue</Link>
-          <Link href="/favourites" className="ghost-btn">View Favourites</Link>
-        </div>
-      </section>
-
-      <section>
-        <h2>Categories</h2>
-        <CategoryPills categories={categories} />
-      </section>
-
-      <section>
-        <div className="row-between">
-          <h2>Featured Products</h2>
-          <Link href="/catalogue" className="simple-link">See all</Link>
-        </div>
-        <div className="grid cards-grid">
-          {products.slice(0, 4).map((product) => (
-            <ProductCard key={product.id} product={product} />
-          ))}
-        </div>
-      </section>
-    </section>
+    <>
+      <StartScreen onStart={() => setModalOpen(true)} />
+      <LocationModal
+        isOpen={isModalOpen}
+        cityLabel={cityValue}
+        onContinue={handleContinue}
+        onSelectCity={handleSelectCity}
+        onClose={() => setModalOpen(false)}
+      />
+    </>
   );
 }
