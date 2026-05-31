@@ -1,54 +1,69 @@
-export const categories = ['Cosmetics', 'Capsules', 'Oils', 'Flowers'];
+const names = [
+  'Graphite Serum', 'Lime Mist', 'Velvet Cream', 'Matte Brush', 'Night Shampoo', 'Urban Oil',
+  'Glass Balm', 'Soft Powder', 'Forest Mask', 'Clean Capsule', 'Prime Comb', 'Glow Drops'
+];
 
-export const products = [
-  {
-    id: 'cbd-face-serum',
-    name: 'CBD Radiance Face Serum',
-    category: 'Cosmetics',
-    price: 68,
-    description: 'A velvety serum with broad-spectrum CBD and botanical extracts for visible glow and calm skin.',
-    image: 'https://images.unsplash.com/photo-1617897903246-719242758050?auto=format&fit=crop&w=1200&q=80'
-  },
-  {
-    id: 'cbd-softgels',
-    name: 'Daily Balance Softgels',
-    category: 'Capsules',
-    price: 52,
-    description: 'Precise daily capsules designed for simple routines and long-lasting composure.',
-    image: 'https://images.unsplash.com/photo-1611241893603-3c359704e0ee?auto=format&fit=crop&w=1200&q=80'
-  },
-  {
-    id: 'cbd-dropper-oil',
-    name: 'Calm Spectrum Oil',
-    category: 'Oils',
-    price: 74,
-    description: 'Premium CBD oil with a smooth taste profile crafted for everyday balance and calm.',
-    image: 'https://images.unsplash.com/photo-1585238342024-78d387f4a707?auto=format&fit=crop&w=1200&q=80'
-  },
-  {
-    id: 'cbd-flower-premium',
-    name: 'Reserve CBD Flower',
-    category: 'Flowers',
-    price: 46,
-    description: 'Hand-selected aromatic CBD flower grown with strict quality standards.',
-    image: 'https://images.unsplash.com/photo-1603909223429-69bb7101f420?auto=format&fit=crop&w=1200&q=80'
-  },
-  {
-    id: 'cbd-body-cream',
-    name: 'Relief Body Cream',
-    category: 'Cosmetics',
-    price: 58,
-    description: 'Nourishing cream enriched with CBD, shea, and calming herbs for comfort.',
-    image: 'https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?auto=format&fit=crop&w=1200&q=80'
-  },
-  {
-    id: 'cbd-night-oil',
-    name: 'Evening Ritual Oil',
-    category: 'Oils',
-    price: 79,
-    description: 'A relaxing nighttime blend made to support quiet evenings and restorative routines.',
-    image: 'https://images.unsplash.com/photo-1515377905703-c4788e51af15?auto=format&fit=crop&w=1200&q=80'
-  }
+const categoryConfig = [
+  { category: 'Makeup', count: 68, baseUsd: 28 },
+  { category: 'Hair', count: 29, baseUsd: 34 },
+  { category: 'Accessories', count: 71, baseUsd: 18 },
+  { category: 'Exclusive', count: 15, baseUsd: 64 }
+];
+
+const tagMap = {
+  Makeup: ['Beauty', 'Premium', 'New'],
+  Hair: ['Care', 'Smooth', 'Clean'],
+  Accessories: ['Kit', 'Utility', 'Matte'],
+  Exclusive: ['Limited', 'Reserve', 'Premium']
+};
+
+export const categories = [
+  { id: 'popular', label: 'Popular', count: 60, accent: true },
+  { id: 'exclusive', label: 'Exclusive', count: 15, accent: true },
+  { id: 'all', label: 'All', count: 183 },
+  { id: 'makeup', label: 'Makeup', count: 68 },
+  { id: 'hair', label: 'Hair', count: 29 },
+  { id: 'accessories', label: 'Accessories', count: 71 }
+];
+
+const makeProduct = (category, index, offset, baseUsd) => {
+  const name = names[(index + offset) % names.length];
+  const priceUsd = baseUsd + ((index * 7 + offset) % 34);
+
+  return {
+    id: `${category.toLowerCase()}-${index + 1}`,
+    name: `${name} ${index + 1}`,
+    title: `${name} ${index + 1}`,
+    category,
+    tags: tagMap[category],
+    price: priceUsd,
+    usdPrice: priceUsd,
+    demoPrice: `${priceUsd} USD`,
+    description: `${category} demo catalogue item with premium packaging and clean mini-app presentation.`,
+    characteristics: [
+      'Demo marketplace item',
+      'Availability may vary',
+      'Estimated time shown in app',
+      'Legal products only'
+    ],
+    tone: ['lime', 'graphite', 'emerald', 'charcoal'][(index + offset) % 4],
+    isNew: offset + index < 5
+  };
+};
+
+export const products = categoryConfig.flatMap((item, categoryIndex) =>
+  Array.from({ length: item.count }, (_, index) =>
+    makeProduct(item.category, index, categoryIndex * 11, item.baseUsd)
+  )
+);
+
+const takeByCategory = (category, amount) => products.filter((item) => item.category === category).slice(0, amount);
+
+export const popularProducts = [
+  ...takeByCategory('Makeup', 25),
+  ...takeByCategory('Exclusive', 10),
+  ...takeByCategory('Hair', 8),
+  ...takeByCategory('Accessories', 17)
 ];
 
 export const getProductById = (id) => products.find((product) => product.id === id);
