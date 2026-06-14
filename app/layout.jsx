@@ -1,4 +1,5 @@
 import './globals.css';
+import './home-polish.css';
 import { ShopProvider } from '@/context/shop-context';
 
 export const metadata = {
