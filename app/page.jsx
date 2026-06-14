@@ -8,6 +8,7 @@ const languages = ['English', 'Русский', 'Українська', 'Españo
 const cities = ['Dublin, Ireland', 'Navan, Ireland', 'London, United Kingdom', 'Berlin, Germany', 'Paris, France', 'Amsterdam, Netherlands', 'Madrid, Spain', 'Rome, Italy', 'Warsaw, Poland', 'Toronto, Canada', 'Sydney, Australia'];
 const checkoutMethods = ['BTC', 'ETH', 'USDT', 'BNB', 'TRX', 'TON', 'XRP', 'MATIC', 'LTC'];
 const disabledMethods = ['SOL', 'DOGE', 'ADA'];
+const liveNames = ['Alex', 'Sarah', 'Mika', 'Daniel', 'Emma'];
 
 function openTelegram(url) {
   if (typeof window === 'undefined') return;
@@ -35,14 +36,19 @@ export default function HomePage() {
   const [citySearch, setCitySearch] = useState('');
   const [language, setLanguage] = useState('English');
   const [languageSearch, setLanguageSearch] = useState('');
-  const [activeNow, setActiveNow] = useState(384);
-  const [ordersToday, setOrdersToday] = useState(127);
+  const [activeNow, setActiveNow] = useState(12847);
+  const [ordersToday, setOrdersToday] = useState(247);
+  const [liveTrend, setLiveTrend] = useState('+2.4%');
 
   useEffect(() => {
     const timer = setInterval(() => {
-      setActiveNow((value) => value + (Math.random() > 0.5 ? 1 : -1));
-      setOrdersToday((value) => value + 1);
-    }, 35000);
+      setActiveNow((value) => {
+        const move = Math.floor(Math.random() * 19) - 7;
+        return Math.max(12380, Math.min(13240, value + move));
+      });
+      setOrdersToday((value) => value + (Math.random() > 0.38 ? 1 : 0));
+      setLiveTrend(Math.random() > 0.42 ? '+2.4%' : '+1.8%');
+    }, 6500);
     return () => clearInterval(timer);
   }, []);
 
@@ -75,7 +81,17 @@ export default function HomePage() {
     return <main className="app-bg splash-wrap"><section className="splash-card"><div className="cube"><span>◆</span></div><p className="eyebrow">Premium Mini Store</p><h1>NESTIX</h1><p>Matte black beauty shopping mini app with fast local flow and premium product cards.</p><button className="primary-action" onClick={() => setStarted(true)}>Get Started</button></section></main>;
   }
 
-  const renderHome = () => <><header className="topbar"><div><p className="muted">{city}</p><h1>NESTIX</h1><span>2 hour delivery</span></div><button className="glass-btn" onClick={() => setTab('community')}>Community</button></header><section className="search-row"><div className="search-box"><span>⌕</span><input value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Search products..." />{query && <button onClick={() => setQuery('')}>×</button>}</div><div className="sort-box"><button className="glass-btn" onClick={() => setSortOpen(!sortOpen)}>Sort</button>{sortOpen && <div className="sort-menu">{[['none', 'No sorting'], ['high', 'Price: High to Low'], ['low', 'Price: Low to High']].map(([id, label]) => <button key={id} className={sort === id ? 'active' : ''} onClick={() => { setSort(id); setSortOpen(false); }}>{sort === id ? '✓ ' : ''}{label}</button>)}</div>}</div></section><section className="category-stack"><div className="pill-line accent-line">{categories.filter((item) => item.accent).map((item) => <button key={item.id} className={category === item.id ? 'pill active' : 'pill'} onClick={() => setCategory(item.id)}>{item.label} {item.count}</button>)}</div><div className="pill-line">{categories.filter((item) => !item.accent).map((item) => <button key={item.id} className={category === item.id ? 'pill active' : 'pill'} onClick={() => setCategory(item.id)}>{item.label} {item.count}</button>)}</div></section>{catalogue.length === 0 ? <div className="empty-state">⌕×<br />No products found</div> : <section className="product-grid">{catalogue.slice(0, 40).map((product) => <ProductCard key={product.id} product={product} onOpen={setSelected} onAdd={addToCart} />)}</section>}</>;
+  const renderHome = () => {
+    const featured = catalogue.slice(0, 40);
+    const heroCats = [
+      { id: 'makeup', label: 'Makeup', icon: '✦', count: 68 },
+      { id: 'exclusive', label: 'Exclusive', icon: '◇', count: 15 },
+      { id: 'accessories', label: 'Accessories', icon: '▣', count: 71 }
+    ];
+    const liveActivity = liveNames.slice(0, 3).map((name, index) => ({ name, text: index === 0 ? 'added item' : index === 1 ? 'opened cart' : 'changed city', time: `${index + 1}m ago` }));
+
+    return <section className="home-screen"><header className="home-hero"><div className="hero-top"><button className="city-chip" onClick={() => { setTab('profile'); setProfilePage('city'); }}>⌖ {city}</button><button className="bell-btn">⌁</button></div><div className="brand-block"><p className="eyebrow">Private Marketplace</p><h1>NESTIX</h1><span>2 hour delivery</span></div><div className="live-panel"><div className="live-main"><span className="live-dot"></span><div><b>{activeNow.toLocaleString()} Online Now</b><small>Live community • updated now</small></div><em>{liveTrend}</em></div><div className="mini-wave"><i></i><i></i><i></i><i></i><i></i></div></div><div className="live-row"><div><b>{ordersToday}</b><span>orders today</span></div><div><b>~45m</b><span>pickup ETA</span></div><div><b>1 min</b><span>support avg.</span></div></div></header><section className="search-row premium-search"><div className="search-box"><span>⌕</span><input value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Search products..." />{query && <button onClick={() => setQuery('')}>×</button>}</div><div className="sort-box"><button className="glass-btn filter-btn" onClick={() => setSortOpen(!sortOpen)}>☷</button>{sortOpen && <div className="sort-menu">{[['none', 'No sorting'], ['high', 'Price: High to Low'], ['low', 'Price: Low to High']].map(([id, label]) => <button key={id} className={sort === id ? 'active' : ''} onClick={() => { setSort(id); setSortOpen(false); }}>{sort === id ? '✓ ' : ''}{label}</button>)}</div>}</div></section><section className="home-category-cards">{heroCats.map((item) => <button key={item.id} className={category === item.id ? 'home-cat active' : 'home-cat'} onClick={() => setCategory(item.id)}><span>{item.icon}</span><b>{item.label}</b><small>{item.count}</small></button>)}</section><section className="category-stack compact-cats"><div className="pill-line accent-line">{categories.filter((item) => item.accent).map((item) => <button key={item.id} className={category === item.id ? 'pill active' : 'pill'} onClick={() => setCategory(item.id)}>{item.label} {item.count}</button>)}</div><div className="pill-line">{categories.filter((item) => !item.accent).map((item) => <button key={item.id} className={category === item.id ? 'pill active' : 'pill'} onClick={() => setCategory(item.id)}>{item.label} {item.count}</button>)}</div></section><section className="section-title-row"><div><h2>Top Picks</h2><p>Live catalogue selection</p></div><button onClick={() => setCategory('all')}>View all →</button></section>{featured.length === 0 ? <div className="empty-state">⌕×<br />No products found</div> : <section className="product-grid">{featured.map((product) => <ProductCard key={product.id} product={product} onOpen={setSelected} onAdd={addToCart} />)}</section>}<section className="activity-card"><div><b>Live Activity</b><small>Simulated dashboard activity</small></div>{liveActivity.map((item) => <article key={item.name}><span>{item.name[0]}</span><p><b>{item.name}</b> {item.text}<br /><small>{item.time}</small></p></article>)}</section></section>;
+  };
 
   const renderCart = () => {
     if (checkout === 'notice') return <Panel title="Secure Checkout"><p>Orders are processed through a protected demo checkout flow.</p><p>Your order will only move to processing after confirmation.</p><p>Never share sensitive details in chat.</p><button className="primary-action wide" onClick={() => setCheckout('checkout')}>Continue</button></Panel>;
@@ -85,7 +101,7 @@ export default function HomePage() {
     return <section className="panel-page"><h2>Cart</h2>{cartItems.length === 0 ? <div className="empty-state">Cart is empty</div> : cartItems.map((item) => <article className="cart-card" key={item.id}><div className={`mini-visual ${item.tone}`}></div><div><h3>{item.title}</h3><p>{item.demoPrice}</p><small>Qty {item.qty}</small></div><div className="cart-actions"><button onClick={() => updateQty(item.id, -1)}>-</button><button onClick={() => updateQty(item.id, 1)}>+</button><button className="danger" onClick={() => removeItem(item.id)}>Delete</button></div></article>)}<input className="field" placeholder="Promo code" /><div className="method-grid"><button className={method === 'delivery' ? 'method active' : 'method'} onClick={() => setMethod('delivery')}>Delivery<br /><span>ETA ~2 hours</span></button><button className={method === 'pickup' ? 'method active' : 'method'} onClick={() => setMethod('pickup')}>Pickup Point<br /><span>ETA ~45 min</span></button></div><input className="field" value={location} onChange={(e) => setLocation(e.target.value)} placeholder="Enter your approximate location" /><p className="helper">{method === 'delivery' ? 'The exact delivery address can be confirmed after checkout.' : 'After arriving at the pickup point, support will guide you there.'}</p><button className="primary-action wide" disabled={!cartItems.length} onClick={() => setCheckout('notice')}>Continue • ${total}</button></section>;
   };
 
-  const renderCommunity = () => <section className="panel-page"><h2>Community Dashboard</h2><div className="stat-grid"><Stat label="Active Now" value={activeNow} /><Stat label="Orders Today" value={ordersToday} /><Stat label="Users" value="14,372" /></div><p className="helper">Demo/simulated activity • Avg 15+ Orders</p></section>;
+  const renderCommunity = () => <section className="panel-page"><h2>Community Dashboard</h2><div className="stat-grid"><Stat label="Active Now" value={activeNow.toLocaleString()} /><Stat label="Orders Today" value={ordersToday} /><Stat label="Users" value="14,372" /></div><p className="helper">Demo/simulated activity • Avg 15+ Orders</p></section>;
   const renderProfile = () => {
     if (profilePage === 'city') return <CityScreen city={city} setCity={setCity} search={citySearch} setSearch={setCitySearch} onBack={() => setProfilePage(null)} />;
     if (profilePage === 'language') return <LanguageScreen language={language} setLanguage={setLanguage} search={languageSearch} setSearch={setLanguageSearch} onBack={() => setProfilePage(null)} />;
